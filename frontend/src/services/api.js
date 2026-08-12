@@ -18,6 +18,9 @@ export async function predictSpecies(payload) {
     return await response.json();
   } catch (error) {
     console.error('API predict error:', error);
+    if (error.name === 'TypeError' || error.message.includes('fetch')) {
+      throw new Error(`Unable to connect to backend API (${API_BASE_URL}). Please ensure FastAPI is running.`);
+    }
     throw error;
   }
 }
